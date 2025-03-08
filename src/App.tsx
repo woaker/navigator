@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Star, Sparkles, Brain, Globe, ChevronRight, ExternalLink, Rocket, Code, Palette, Book, Terminal, Cloud } from 'lucide-react';
+import { Search, Star, Sparkles, Brain, Globe, ChevronRight, ExternalLink, Rocket, Code, Palette, Book, Terminal, Cloud, ChevronDown, ChevronUp } from 'lucide-react';
 
 interface Resource {
   title: string;
@@ -11,6 +11,7 @@ interface Resource {
 
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
+  const [expandedCategories, setExpandedCategories] = useState<string[]>(['ai', 'tech', 'learning', 'design', 'cloud', 'dev']);
   
   const resources: Resource[] = [
     // AI Tools
@@ -324,6 +325,18 @@ function App() {
     }
   };
   
+  const toggleCategory = (category: string) => {
+    setExpandedCategories((prev: string[]) => 
+      prev.includes(category) 
+        ? prev.filter((cat: string) => cat !== category) 
+        : [...prev, category]
+    );
+  };
+
+  const isCategoryExpanded = (category: string): boolean => {
+    return expandedCategories.includes(category);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
       {/* Header */}
@@ -396,18 +409,34 @@ function App() {
         <div className="space-y-8 pb-12">
           {['ai', 'tech', 'learning', 'design', 'cloud', 'dev'].map((category) => (
             <section key={category}>
-              <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2 mb-4">
-                {getCategoryIcon(category)}
-                {{
-                  ai: 'AI工具',
-                  tech: '技术资源',
-                  learning: '学习平台',
-                  design: '设计资源',
-                  cloud: '云服务',
-                  dev: '开发工具'
-                }[category]}
-              </h2>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
+              <div 
+                className="text-xl font-bold text-slate-800 flex items-center justify-between mb-4 cursor-pointer hover:opacity-80 transition-opacity p-2 rounded-lg hover:bg-slate-50"
+                onClick={() => toggleCategory(category)}
+              >
+                <div className="flex items-center gap-2">
+                  {getCategoryIcon(category)}
+                  {{
+                    ai: 'AI工具',
+                    tech: '技术资源',
+                    learning: '学习平台',
+                    design: '设计资源',
+                    cloud: '云服务',
+                    dev: '开发工具'
+                  }[category]}
+                  <span className={`ml-2 text-xs font-normal bg-${getCategoryColor(category)}-100 text-${getCategoryColor(category)}-700 px-2 py-0.5 rounded-full`}>
+                    {filteredResources.filter(r => r.category === category).length}
+                  </span>
+                </div>
+                <div className={`text-${getCategoryColor(category)}-500`}>
+                  {isCategoryExpanded(category) ? (
+                    <ChevronUp className="w-5 h-5" />
+                  ) : (
+                    <ChevronDown className="w-5 h-5" />
+                  )}
+                </div>
+              </div>
+              
+              <div className={`grid md:grid-cols-2 lg:grid-cols-3 gap-3 overflow-hidden transition-all duration-300 ease-in-out ${isCategoryExpanded(category) ? 'max-h-[5000px] opacity-100' : 'max-h-0 opacity-0'}`}>
                 {filteredResources
                   .filter(r => r.category === category)
                   .map((resource) => (
