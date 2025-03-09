@@ -17,7 +17,7 @@ function App() {
     // AI Tools
     {
       title: 'ChatGPT',
-      description: '领先的AI对话模型，支持自然语言交互和多样化任务',
+      description: '领先的AI对话模型，支持自然语言交互和多样化任务111',
       url: 'https://chat.openai.com',
       category: 'ai',
       featured: true
@@ -37,7 +37,7 @@ function App() {
     },
     {
       title: 'Claude',
-      description: '智能AI助手，擅长分析和创作1',
+      description: '智能AI助手，擅长分析和创作',
       url: 'https://claude.ai',
       category: 'ai'
     },
