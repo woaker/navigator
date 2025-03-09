@@ -37,7 +37,7 @@ function App() {
     },
     {
       title: 'Claude',
-      description: '智能AI助手，擅长分析和创作',
+      description: '智能AI助手，擅长分析和创作1',
       url: 'https://claude.ai',
       category: 'ai'
     },
